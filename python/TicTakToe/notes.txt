@@ -1,0 +1,10 @@
+a true 2d list can be muted and sliced by using statements like array[0][0:5]
+
+global and local variables
+
+import os   #this line imports
+os.system('cls' if os.name == 'nt' else 'clear') #this checks if os is windows or linux, and is a ternary statement, though to make it simple, interesting and annoying for window users we will use only "clear"
+
+how to print array without commas
+for row in secGrid:
+        print(''.join(row))
