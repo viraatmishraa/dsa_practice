@@ -1,5 +1,6 @@
 mainGrid=[0,0,0,0,0,0,0,0,0]
 import os
+import random
 def inputNumber(str):
     x=input(str)
     try:
@@ -35,7 +36,7 @@ def printGrid(player,place,secGrid):
         subRow1="\\   / "
         subRow2="  X   "
         subRow3="/   \\ "
-    elif(player==2):
+    elif(player==2 ):
        subRow1="┌----┐"
        subRow2="|    |"
        subRow3="└----┘"
@@ -89,20 +90,30 @@ def printGrid(player,place,secGrid):
 
 
 def plays(player):
-    played=inputNumber(f"player {player}! your next choice is:")
-    if(played>=10 or played<0):
-        print("out of netwrok, is your input!")
-        return plays(player)
-    if(mainGrid[played-1]==0):
-        mainGrid[played-1]=player
+    if(not player==3):    
+        played=inputNumber(f"player {player}! your next choice is:")
+        if(played>=10 or played<=0):
+            print("out of netwrok, is your input!")
+            return plays(player)
+        if(mainGrid[played-1]==0):
+            mainGrid[played-1]=player
+        else:
+            print("already played there buddy!")
+            return plays(player)
+        return played
     else:
-        print("already played there buddy!")
-        return plays(player)
-    return played
+        played=random.randint(1,9)
+        if(mainGrid[played-1]==0):
+            mainGrid[played-1]=player-1
+        else:
+            return plays(player)
+        return played
 
 
 def main():
     turn=0
+    modeInput=inputNumber("for playing with other player press 1\nfor playing with computer press 2")
+
     player=1
     secGrid = [
         list("       |       |       "),
@@ -117,24 +128,43 @@ def main():
         list("    7  |   8   |   9   "),
         list("       |       |       ")]
     printGrid(0,0,secGrid)
-    playername1=input("enter player 1 name:")
-    playername2=input("enter player 2 name:")
-    while(isWinning(mainGrid)==0 and turn <9):
-        if(player==1):
-            secGrid=printGrid(player,plays(1),secGrid)
-            player=2
-            turn=turn+1
-        elif(player==2):
-            secGrid=printGrid(player,plays(2),secGrid)
-            player=1
-            turn=turn+1
-    if(turn==9 and not isWinning(mainGrid)):
-        print("draw dosh!")
-    else:
-        if(not player==1):
-            print(f"{playername1} wins!")
+    if(modeInput==1):    
+        playername1=input("enter player 1 name:")
+        playername2=input("enter player 2 name:")
+        while(isWinning(mainGrid)==0 and turn <9):
+            if(player==1):
+                secGrid=printGrid(player,plays(1),secGrid)
+                player=2
+                turn=turn+1
+            elif(player==2):
+                secGrid=printGrid(player,plays(2),secGrid)
+                player=1
+                turn=turn+1
+        if(turn==9 and not isWinning(mainGrid)):
+            print("draw dosh!")
         else:
-            print(f"{playername2} wins!")
+            if(not player==1):
+                print(f"{playername1} wins!")
+            else:
+                print(f"{playername2} wins!")
+    elif(modeInput==2):
+        while(isWinning(mainGrid)==0 and turn <9):
+            if(player==1):
+                secGrid=printGrid(player,plays(1),secGrid)
+                player=3
+                turn=turn+1
+            elif(player==3):
+                secGrid=printGrid(player-1,plays(3),secGrid)
+                player=1
+                turn=turn+1
+        if(turn==9 and not isWinning(mainGrid)):
+            print("draw dosh!")
+        else:
+            if(not player==1):
+                print("player wins!")
+            else:
+                print("computer wins!")
+
 
 main()
 
