@@ -117,6 +117,8 @@ def main():
         list("    7  |   8   |   9   "),
         list("       |       |       ")]
     printGrid(0,0,secGrid)
+    playername1=input("enter player 1 name:")
+    playername2=input("enter player 2 name:")
     while(isWinning(mainGrid)==0 and turn <9):
         if(player==1):
             secGrid=printGrid(player,plays(1),secGrid)
@@ -129,7 +131,10 @@ def main():
     if(turn==9 and not isWinning(mainGrid)):
         print("draw dosh!")
     else:
-        print(f"player {player} loses!")
+        if(not player==1):
+            print(f"{playername1} wins!")
+        else:
+            print(f"{playername2} wins!")
 
 main()
 
